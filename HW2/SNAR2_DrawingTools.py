@@ -1,4 +1,3 @@
-import numpy as np
 import PIL.Image as img
 import PIL.ImageDraw as draw
 import PIL.ImageFont as font
@@ -24,9 +23,9 @@ def hMap(prob,ps,lw,name : str,data : bool,position):
     sz = ps + 2 * lw
     wmap = img.new(mode="RGB", size=(sz * prob.shape[1], sz * prob.shape[0]+80), color=(50, 50, 50))
     d=draw.Draw(wmap)
-    barsize=sz * prob.shape[1]//100
+    barsize=sz * prob.shape[1]/100
     for i in range(0,100):
-        d.rectangle((barsize*i,sz * prob.shape[0]+60,barsize*(i+1),sz * prob.shape[0]+80),(int(2.55*i),0,int(2.55*(100-i))))
+        d.rectangle((int(barsize*i),sz * prob.shape[0]+60,int(barsize*(i+1)),sz * prob.shape[0]+80),(int(2.55*i),0,int(2.55*(100-i))))
     d.text((0, sz*prob.shape[0]+20), "0", fill=(255, 255, 255), font=ft)
     d.text((sz*prob.shape[1]-sz//2, sz*prob.shape[0]+20), "1", fill=(255, 255, 255), font=ft)
     ft = font.truetype("arial.ttf", size=ps // 4)
