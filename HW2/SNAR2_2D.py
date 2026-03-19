@@ -124,4 +124,4 @@ for _ in range(iterations):
         p/=np.sum(p)
 
 #Итог
-tools.hMap(p,ps,lw,"probDistFin2D",True,realPos)#Визуализация распределения вероятностей и реального положения
+tools.hMap(p,ps,lw,"probDistFin2D",True,realPos,True)#Визуализация распределения вероятностей и реального положения
