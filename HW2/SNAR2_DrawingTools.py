@@ -9,7 +9,7 @@ colors={
     "b":(0,0,255),
     "p":(200,0,255)
 }
-
+asdasdasd
 def hMap(prob,ps,lw,name : str,data : bool,position):
     """
     :param prob: распределение вероятностей
