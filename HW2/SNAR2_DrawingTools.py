@@ -3,6 +3,7 @@ import PIL.Image as img
 import PIL.ImageDraw as draw
 import PIL.ImageFont as font
 
+#Цвета карты мира. Добавлять здесь
 colors={
     "r":(255,0,0),
     "g":(0,255,0),

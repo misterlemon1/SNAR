@@ -7,6 +7,8 @@ import SNAR2_DrawingTools as tools
 Nx=10 #Длина мира
 Ny=10 #Ширина мира
 wdet=[]#Определитель мира(Повторяющийся паттерн из последовательностей "g","r" или если пусто, то рандом)
+colors=np.array(["r","g","b","p"])#Цвета мира
+
 
 #Позиция и перемещение
 idx=-1 #Позиция по оси х (Отрицательное значит неопределенность)
@@ -43,6 +45,9 @@ save_period = 10 #период сохранения карт
 
 save_period = save_period if (save_period>0 and save_period<=iterations) else iterations
 
+
+
+
 #Т.к. движение коммутативно порядок не важен(сначала x, потом y или наоборот дадут один результат), будем двигаться сначала по x, затем по y
 def movex(p,u,pU):
     pu=np.zeros(Nx)
@@ -66,7 +71,7 @@ def movey(p,u,pU):
 def worldGen(wdet):
     wdet=np.array(wdet)
     if wdet.size==0:
-        return(np.random.choice(["r","g","b","p"],p=[0.25,0.25,0.25,0.25],size=(Ny,Nx)))
+        return np.random.choice(colors, p=[1/colors.size]*colors.size, size=(Ny, Nx))#Вероятность можно настраивать вручную в параметре p
     w=[]
     for i in range(Ny):
         dw=[]
@@ -76,8 +81,7 @@ def worldGen(wdet):
     return np.array(w)
 
 def sense(world, idx, idy):
-    colors=np.array(["g","r","b","p"])
-    colProb=np.where(colors==world[idy,idx],pHitReal,(1-pHitReal)/3) #Каждый неправильный цвет имеет 1/3 вероятности ошибки скана
+    colProb=np.where(colors==world[idy,idx],pHitReal,(1-pHitReal)/(colors.size-1)) #Каждый неправильный цвет имеет 1/3 вероятности ошибки скана
     return np.random.choice(colors,p=colProb)
 
 def enchSense(world,idx,idy,radiusx,radiusy): #Более крутой скан в квадратной области от него(отход на radius от точки) + возвращает вероятностное поле
