@@ -76,10 +76,10 @@ def sense(world, idx, idy):
     colProb=np.where(colors==world[idy,idx],pHitReal,(1-pHitReal)/3) #Каждый неправильный цвет имеет 1/3 вероятности ошибки скана
     return np.random.choice(colors,p=colProb)
 
-def enchSense(world,idx,idy,radius): #Более крутой скан в квадратной области от него(отход на radius от точки) + возвращает вероятностное поле
+def enchSense(world,idx,idy,radiusx,radiusy): #Более крутой скан в квадратной области от него(отход на radius от точки) + возвращает вероятностное поле
     newprob=np.zeros((Ny,Nx))
-    for dy in range(-radius,radius+1):
-        for dx in range(-radius,radius+1):
+    for dy in range(-radiusy,radiusy+1):
+        for dx in range(-radiusx,radiusx+1):
             col=sense(world,(idx+dx)%Nx,(idy+dy)%Ny)
             newprob+=np.roll(np.where(world==col,pHit,pMiss),(-dy,-dx),(0,1))
     return newprob
@@ -124,7 +124,7 @@ for itr in range(iterations):
     idry=(idry+uy+duy)%Ny #Т.к. пространство замкнуто
     #Скан
     for _ in range(sensePerMove):
-        p*=enchSense(world,idrx,idry,1)
+        p*=enchSense(world,idrx,idry,1,1)
         p/=np.sum(p)
     if itr%save_period==0:#Сохранение кратных итераций
         tools.hMap(p, ps, lw, f"probDistIter_{itr}_2D_C&S", True, realPos, True)
