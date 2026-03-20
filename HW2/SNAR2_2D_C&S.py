@@ -124,7 +124,7 @@ for itr in range(iterations):
     idry=(idry+uy+duy)%Ny #Т.к. пространство замкнуто
     #Скан
     for _ in range(sensePerMove):
-        p*=enchSense(world,idrx,idry,0)
+        p*=enchSense(world,idrx,idry,1)
         p/=np.sum(p)
     if itr%save_period==0:#Сохранение кратных итераций
         tools.hMap(p, ps, lw, f"probDistIter_{itr}_2D_C&S", True, realPos, True)
