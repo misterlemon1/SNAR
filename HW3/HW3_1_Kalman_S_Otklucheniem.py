@@ -90,8 +90,8 @@ def add_boundaries(ax, df, start_time, end_time, color):
     ax.plot(
         [first_row['t'], first_row['t']],
         [
-            first_row['v_kalman'] + 10 * np.sqrt(first_row["P"]),
-            first_row['v_kalman'] - 10 * np.sqrt(first_row["P"])
+            first_row['v_kalman'] + 10,
+            first_row['v_kalman'] - 10
         ],
         "--",
         color=color
@@ -100,8 +100,8 @@ def add_boundaries(ax, df, start_time, end_time, color):
     ax.plot(
         [last_row['t'], last_row['t']],
         [
-            last_row['v_kalman'] + 10 * np.sqrt(last_row["P"]),
-            last_row['v_kalman'] - 10 * np.sqrt(last_row["P"])
+            last_row['v_kalman'] + 10 ,
+            last_row['v_kalman'] - 10
         ],
         "--",
         color=color
@@ -143,7 +143,7 @@ df = load_data()
 df = process_time(df)
 df = latlon_to_meters(df)
 df = prepare_speed(df)
-df=simulate_dropout_by_time(df)
+df=simulate_dropout_by_time(df)#Все измерения GPS с 17:25 до 17:35 становятся Nan и все измерения от OBD с 17:40 до 17:50
 df = run_kalman(df)
 
 plot_kalman(df)

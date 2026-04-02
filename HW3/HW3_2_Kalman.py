@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from HW3_BaseFunc import load_data, process_time, latlon_to_meters, prepare_speed
 
 
+
 def prepare_navigation(df):
     # bearing в радианы
     df['Bearing'] = pd.to_numeric(df[' Bearing'], errors='coerce')
@@ -41,9 +42,9 @@ class KalmanPosition1D:
 def run_kalman_position(df):
     kf = KalmanPosition1D(
         x0=0,
-        P0=100,  # Начальный шум
+        P0=10000,  # Начальный шум
         Q=5,     # шум модели (движение)
-        R=20     # шум GPS позиции
+        R=25     # шум GPS позиции
     )
 
     x_est = []

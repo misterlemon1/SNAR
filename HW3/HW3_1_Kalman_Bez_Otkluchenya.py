@@ -11,18 +11,15 @@ class Kalman1D:
         self.R_gps = R_gps
         self.R_obd = R_obd
 
-    def predict(self, dt):
+    def predict(self, dt):#MOVE PHASE
         # модель: V = V (ничего не меняется)
         # но дисперсия растёт
         self.P = self.P + self.Q * dt
-
-    def update(self, z, R):
+    def update(self, z, R):#SENSE PHASE
         # если нет измерения — ничего не делаем
         if np.isnan(z):
             return
-
         K = self.P / (self.P + R)
-
         self.x = self.x + K * (z - self.x)
         self.P = (1 - K) * self.P
 
@@ -51,7 +48,7 @@ def run_kalman(df):
         else:
             dt = t[i] - t[i-1]
 
-        # --- PREDICT ---
+        # --- SENSE ---
         kf.predict(dt)
 
         # --- UPDATE OBD ---

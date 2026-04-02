@@ -35,4 +35,4 @@ folium.Marker(coords[0], tooltip="Start").add_to(m) # старт
 folium.Marker(coords[-1], tooltip="End").add_to(m) # конец
 
 #Для сохранения карты нужна команда ниже
-#m.save("trajectory.html")
+m.save("trajectory.html")
