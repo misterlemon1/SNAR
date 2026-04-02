@@ -1,3 +1,5 @@
+from cProfile import label
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -46,9 +48,10 @@ def run_kalman_position(df):
         Q=5,     # шум модели (движение)
         R=25     # шум GPS позиции
     )
-
-    x_est = []
-    P_est = []
+    x_estmove = []
+    P_estmove = []
+    x_estsense = []
+    P_estsense = []
 
     t = df['t'].values
     v = df['v_gps'].values
@@ -58,15 +61,18 @@ def run_kalman_position(df):
     for i in range(len(df)):
         dt = 0 if i == 0 else t[i] - t[i-1]
 
-        # --- MOTION ---
+        # --- MOVE ---
         kf.predict(v[i], theta[i], dt)
+        x_estmove.append(kf.x)
+        P_estmove.append(kf.P)
         # --- SENSE ---
         kf.update(z[i])
-
-        x_est.append(kf.x)
-        P_est.append(kf.P)
-    df['x_kalman_pos'] = x_est
-    df['P_pos'] = P_est
+        x_estsense.append(kf.x)
+        P_estsense.append(kf.P)
+    df['x_kalman_move_pos'] = x_estmove
+    df['P_move_pos'] = P_estmove
+    df['x_kalman_sense_pos'] = x_estsense
+    df['P_sense_pos'] = P_estsense
     return df
 
 def plot_position_kalman(df):
@@ -77,16 +83,24 @@ def plot_position_kalman(df):
     plt.plot(df['t'], df['pos_meas'], label='GPS position', alpha=0.5)
 
     # калман
-    plt.plot(df['t'], df['x_kalman_pos'], label='Kalman position', linewidth=2)
-
+    plt.plot(df['t'], df['x_kalman_move_pos'], label="Kalman position after move", linewidth=2)
+    plt.plot(df['t'], df['x_kalman_sense_pos'], label='Kalman position after sense', linewidth=2)
     # uncertainty
-    sigma = np.sqrt(df['P_pos'])
+    sigmaM = np.sqrt(df['P_move_pos'])
     plt.fill_between(
         df['t'],
-        df['x_kalman_pos'] - 3*sigma,
-        df['x_kalman_pos'] + 3*sigma,
+        df['x_kalman_move_pos'] - 3 * sigmaM,
+        df['x_kalman_move_pos'] + 3 * sigmaM,
         alpha=0.2,
-        label='3σ'
+        label='3σ_MOVE'
+    )
+    sigmaS = np.sqrt(df['P_sense_pos'])
+    plt.fill_between(
+        df['t'],
+        df['x_kalman_sense_pos'] - 3*sigmaS,
+        df['x_kalman_sense_pos'] + 3*sigmaS,
+        alpha=0.2,
+        label='3σ_SENSE'
     )
 
     plt.xlabel("Time (s)")
