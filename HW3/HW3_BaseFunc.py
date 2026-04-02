@@ -53,3 +53,11 @@ def prepare_speed(df): #Для кайфа для удобства
     df['v_obd'] = df['Speed (OBD)(km/h)'] / 3.6
     return df
 
+if __name__=="__main__":
+    df=load_data()
+    df=process_time(df)
+    df = latlon_to_meters(df)
+    df = prepare_speed(df)
+    print(df.head(10))
+    print("Поля:")
+    print([*df])
