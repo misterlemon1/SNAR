@@ -11,8 +11,8 @@ def prepare_navigation(df):
     df['Bearing'] = pd.to_numeric(df[' Bearing'], errors='coerce')
     df['bearing_rad'] = np.radians(df[' Bearing'])
 
-    # используем уже посчитанный y (широта!)
-    df['pos_meas'] = df['y']
+    # используем уже посчитанный x (Долгота!)
+    df['pos_meas'] = df['x']
     return df
 
 class KalmanPosition1D:
@@ -25,7 +25,7 @@ class KalmanPosition1D:
     def predict(self, v, theta, dt):#Фаза движения
         if np.isnan(v) or np.isnan(theta):
             return
-        dx = v * np.cos(theta) * dt
+        dx = v * np.sin(theta) * dt
         self.x = self.x + dx
 
         self.P = self.P + self.Q * dt
