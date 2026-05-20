@@ -124,18 +124,25 @@ class Quaternion:
     @property
     def vector(self):
         return (self.r, self.i, self.j, self.k)
+    @property
+    def vector3(self):
+        return (self.i,self.j,self.k)
     def rotate_rad(self,axis,angle):
+        if self.r != 0:
+            raise ValueError("Cannot rotate while real component isnt 0")
         if len(axis)!=3:
             raise ValueError("Axis must be 3 dimensional")
-        L=Quaternion([0]+axis)
-        L=L.normalize()*np.sin(angle/2)+np.cos(angle/2)
+        L = Quaternion([0]+axis)
+        L = L.normalize()*float(np.sin(angle/2))+float(np.cos(angle/2))
         return L*self*L.inverse()
     def rotate_deg(self,axis,angle):
+        if self.r != 0:
+            raise ValueError("Cannot rotate while real component isnt 0")
         if len(axis)!=3:
             raise ValueError("Axis must be 3 dimensional")
         a=np.deg2rad(angle)
         L = Quaternion([0]+axis)
-        L=L.normalize()*np.sin(a/2)+np.cos(a/2)
+        L = L.normalize()*float(np.sin(a/2))+float(np.cos(a/2))
         return L * self * L.inverse()
 
 
