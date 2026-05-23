@@ -1,10 +1,5 @@
-import numpy as np
-
+import math
 class Quaternion:
-    """
-    Реализовал класс кватернионов. Пока что без операций по типу += -= *= и т.д.
-    Есть базовые операции и вычисление сопряженного, обратного кватерниона и вычисление нормы как и нормирование
-    """
     def __init__(self,vector):
         if len(vector) == 4:
             self.r=vector[0]
@@ -21,28 +16,23 @@ class Quaternion:
         elif isinstance(other, Quaternion):
             return Quaternion([self.r+other.r,self.i+other.i,self.j+other.j,self.k+other.k])
         else:
-            raise NotImplemented
+            return NotImplemented
     def __radd__(self, other):
-        if isinstance(other,(int,float)):
-            return Quaternion([self.r+other,self.i,self.j,self.k])
-        elif isinstance(other, Quaternion):
-            return Quaternion([self.r+other.r,self.i+other.i,self.j+other.j,self.k+other.k])
-        else:
-            raise NotImplemented
+        return self.__add__(other)#Сложение коммуитативно, поэтому можно не нагружать код
     def __sub__(self, other):
         if isinstance(other,(int,float)):
             return Quaternion([self.r-other,self.i,self.j,self.k])
         elif isinstance(other, Quaternion):
             return Quaternion([self.r-other.r,self.i-other.i,self.j-other.j,self.k-other.k])
         else:
-            raise NotImplemented
+            return NotImplemented
     def __rsub__(self, other):
         if isinstance(other,(int,float)):
             return Quaternion([other-self.r,-self.i,-self.j,-self.k])
         elif isinstance(other, Quaternion):
             return Quaternion([other.r-self.r,other.i-self.i,other.j-self.j,other.k-self.k])
         else:
-            raise NotImplemented
+            return NotImplemented
     def __mul__(self, other):
         if isinstance(other,(int,float)):
             return Quaternion([other * self.r, other * self.i, other * self.j, other * self.k])
@@ -56,7 +46,7 @@ class Quaternion:
                 a * h + b * g - c * f + d * e
             ])
         else:
-            raise NotImplemented
+            return NotImplemented
     def __rmul__(self, other):
         if isinstance(other,(int,float)):
             return Quaternion([other * self.r, other * self.i, other * self.j, other * self.k])
@@ -70,7 +60,7 @@ class Quaternion:
                 a * h + b * g - c * f + d * e
             ])
         else:
-            raise NotImplemented
+            return NotImplemented
     def conj(self):
         return Quaternion([self.r,-self.i,-self.j,-self.k])
     def norm(self):
@@ -88,26 +78,27 @@ class Quaternion:
             else:
                 raise ZeroDivisionError("Cannot divide by zero")
         elif isinstance(other, Quaternion):
-            if other.norm() != 0:
+            if abs(other.norm()) >= 1e-10:
                 return (self*other.conj())/(other.norm()**2)
             else:
                 raise ZeroDivisionError("Cannot divide by zero quaternion")
         else:
-            raise NotImplemented
+            return NotImplemented
     def __rtruediv__(self, other):
-        if self.norm() == 0:
-            raise ZeroDivisionError("Cannot divide by zero quaternion")
-        else:
+        if abs(self.norm()) >= 1e-10:
             if isinstance(other, (int, float,Quaternion)):
                 return(other*self.conj())/(self.norm()**2)
             else:
-                raise NotImplemented
+                return NotImplemented
+        else:
+            raise ZeroDivisionError("Cannot divide by zero quaternion")
 
     def inverse(self):
         n2 = self.norm() ** 2
         if n2 == 0:
             raise ZeroDivisionError("Zero quaternion has no inverse")
-        return self.conj() / n2
+        c = self.conj()
+        return Quaternion([c.r / n2, c.i / n2, c.j / n2, c.k / n2])
     def __eq__(self, other):
         if isinstance(other, Quaternion):
             return self.r == other.r and self.i == other.i and self.j == other.j and self.k == other.k
@@ -129,21 +120,14 @@ class Quaternion:
         return (self.i,self.j,self.k)
     def rotate_rad(self,axis,angle):
         if self.r != 0:
-            raise ValueError("Cannot rotate while real component isnt 0")
+            raise ValueError("Can only rotate pure quaternions (real component must be 0)")
         if len(axis)!=3:
             raise ValueError("Axis must be 3 dimensional")
-        L = Quaternion([0]+axis)
-        L = L.normalize()*float(np.sin(angle/2))+float(np.cos(angle/2))
+        L = Quaternion([0, *axis])
+        L = L.normalize()*float(math.sin(angle/2))+float(math.cos(angle/2))
         return L*self*L.inverse()
-    def rotate_deg(self,axis,angle):
-        if self.r != 0:
-            raise ValueError("Cannot rotate while real component isnt 0")
-        if len(axis)!=3:
-            raise ValueError("Axis must be 3 dimensional")
-        a=np.deg2rad(angle)
-        L = Quaternion([0]+axis)
-        L = L.normalize()*float(np.sin(a/2))+float(np.cos(a/2))
-        return L * self * L.inverse()
+    def rotate_deg(self, axis, angle):
+        return self.rotate_rad(axis, math.radians(angle))
 
 
 
