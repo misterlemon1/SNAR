@@ -121,11 +121,11 @@ class Quaternion:
     @property
     def vector(self):
         """Возвращает кватернион в виде вектора с действительной частью. (4 компоненты)"""
-        return (self.r, self.i, self.j, self.k)
+        return self.r, self.i, self.j, self.k
     @property
     def vector3(self):
         """Возвращает мнимую часть кватерниона. (3 компоненты)"""
-        return (self.i,self.j,self.k)
+        return self.i,self.j,self.k
     def rotate_rad(self,axis,angle):
         """Вращение кватерниона вдоль оси на заданный угол в радианах"""
         if self.r != 0:
@@ -154,7 +154,7 @@ class IMU:
         Возвращает обновленный вектор направления.
         """
         omega = Quaternion([0,wx*dt/2,wy*dt/2,wz*dt/2])
-        self.direction = self.direction+self.direction*omega  # dq/dt = 0.5 * q * omega_q  интегрирование методом Эйлера
+        self.direction = (self.direction+self.direction*omega).normalize()  # dq/dt = 0.5 * q * omega_q  интегрирование методом Эйлера
         return self.direction
     def to_euler(self):
         """Углы Эйлера в радианах. Конвенция ZYX: объект поворачивается сначала вокруг Z, затем Y, затем X."""
@@ -162,7 +162,7 @@ class IMU:
         qx = math.atan2(2*(r*i + j*k), 1 - 2*(i*i + j*j))
         qy = math.asin(max(-1, min(1, 2*(r*j - k*i))))
         qz = math.atan2(2*(r*k + i*j), 1 - 2*(j*j + k*k))
-        return (qx,qy,qz)
+        return qx,qy,qz
     def to_euler_deg(self):
         """То же что to_euler(), но в градусах."""
         return tuple(math.degrees(a) for a in self.to_euler())
