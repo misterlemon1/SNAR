@@ -1,0 +1,26 @@
+ANDROID_ID:00c58cd7390e8920
+AndroidApiLevel:35
+AppVersion:1.9.2
+BluetoothAddress:null
+DeviceName:Blackview, Active_10_Pro_NEU, Active 10 Pro
+FolderName:/storage/emulated/0/Oblulog/2026-05-28_22-10-22.697_Active 10 Pro/
+IMEI:null
+ImuLeftAddress:
+ImuRightAddress:
+Label:2026-05-28_22-10-22.697_Active 10 Pro
+Logformat:oblulog-1.0
+LoggersStopRealtime:885984727
+LogStartedBy:Master
+MasterSendStartRealtime:885954130
+MasterStartDate:2026-05-28_22-10-22.697
+Note:кидаем
+Placement:Стол
+Realtime:885954175
+Sensorset:[INERTIAL, WIFI, LOCATION, OTHER, VIRTUAL]
+SensorUpdateRate:100Hz
+SlavesAddresses:[]
+StopRealtime:885984660
+Subject:Меньшикова
+TimestampCorrectionMillis:-885954130
+Uptime:49885141
+UTC:1779995425750
