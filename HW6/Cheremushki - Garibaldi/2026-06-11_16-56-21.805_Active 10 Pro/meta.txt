@@ -1,0 +1,26 @@
+ANDROID_ID:00c58cd7390e8920
+AndroidApiLevel:35
+AppVersion:1.9.2
+BluetoothAddress:null
+DeviceName:Blackview, Active_10_Pro_NEU, Active 10 Pro
+FolderName:/storage/emulated/0/Oblulog/2026-06-11_16-56-21.805_Active 10 Pro/
+IMEI:null
+ImuLeftAddress:
+ImuRightAddress:
+Label:2026-06-11_16-56-21.805_Active 10 Pro
+Logformat:oblulog-1.0
+LoggersStopRealtime:2076858850
+LogStartedBy:Master
+MasterSendStartRealtime:2076713240
+MasterStartDate:2026-06-11_16-56-21.805
+Note:Обманка 2
+Placement:Спуск
+Realtime:2076713285
+Sensorset:[INERTIAL, WIFI, LOCATION, OTHER, VIRTUAL]
+SensorUpdateRate:100Hz
+SlavesAddresses:[]
+StopRealtime:2076858694
+Subject:Меньшикова
+TimestampCorrectionMillis:-2076713240
+Uptime:115294840
+UTC:1781186184859

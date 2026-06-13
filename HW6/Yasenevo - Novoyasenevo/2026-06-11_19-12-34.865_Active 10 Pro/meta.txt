@@ -1,0 +1,26 @@
+ANDROID_ID:00c58cd7390e8920
+AndroidApiLevel:35
+AppVersion:1.9.2
+BluetoothAddress:null
+DeviceName:Blackview, Active_10_Pro_NEU, Active 10 Pro
+FolderName:/storage/emulated/0/Oblulog/2026-06-11_19-12-34.865_Active 10 Pro/
+IMEI:null
+ImuLeftAddress:
+ImuRightAddress:
+Label:2026-06-11_19-12-34.865_Active 10 Pro
+Logformat:oblulog-1.0
+LoggersStopRealtime:2085047195
+LogStartedBy:Master
+MasterSendStartRealtime:2084886298
+MasterStartDate:2026-06-11_19-12-34.865
+Note:Горка
+Placement:Ясенево
+Realtime:2084886345
+Sensorset:[INERTIAL, WIFI, LOCATION, OTHER, VIRTUAL]
+SensorUpdateRate:100Hz
+SlavesAddresses:[]
+StopRealtime:2085047029
+Subject:Меньшикова
+TimestampCorrectionMillis:-2084886298
+Uptime:117062710
+UTC:1781194357919
